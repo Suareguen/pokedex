@@ -17,11 +17,29 @@ import {
     QueryClient,
     QueryClientProvider,
   } from 'react-query'
+import  AsyncStorage  from '@react-native-async-storage/async-storage'
+
 
   const queryClient = new QueryClient()
   
   
   export default function Home({ navigation }) {
+    const storeData = async () => {
+      try {
+        await AsyncStorage.setItem('my-key', 'adrian');
+      } catch (e) {
+        console.error(e)
+      }
+    };
+  
+    const getData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('my-key');
+        console.log(value)
+      } catch (e) {
+       console.error(e)
+      }
+    };
     const [input, setInput] = useState('')
     return (
       <SafeAreaView style={styles.container}>
@@ -50,10 +68,20 @@ import {
             </TouchableOpacity>
           </View>
           <View style={ styles.touchableContainer}>
-            <TouchableOpacity style={styles.newButton} onPress={() => navigation.navigate('Random')}>
+            <TouchableOpacity style={styles.newButton} onPress={() => navigation.navigate('Random Pokemon')}>
               <Text style={styles.touchableText}>Get Random Pokemon</Text>
             </TouchableOpacity>
           </View>
+          <View style={styles.touchableContainer}>
+          <TouchableOpacity style={styles.newButton} onPress={() => storeData() }>
+            <Text style={styles.touchableText}>Set Storage</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.touchableContainer}>
+          <TouchableOpacity style={styles.newButton} onPress={getData}>
+            <Text style={styles.touchableText}>Get in localStorage</Text>
+          </TouchableOpacity>
+        </View>
           <StatusBar />
         </ImageBackground>
       </SafeAreaView>
@@ -129,4 +157,3 @@ import {
         alignItems: 'center'
     }
   });
-  

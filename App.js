@@ -8,6 +8,8 @@ const Tab = createBottomTabNavigator();
 import { QueryClient, QueryClientProvider } from "react-query";
 import Pokemon from "./src/screens/Pokemon";
 import { Text } from "react-native";
+import { AppRegistry } from "react-native";
+import { PaperProvider } from "react-native-paper";
 
 const queryClient = new QueryClient();
 
@@ -15,24 +17,33 @@ const Stack = createNativeStackNavigator();
 
 const HomeStack = ({ navigation }) => (
   <Stack.Navigator>
-    <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+    <Stack.Screen
+      name="Home"
+      component={Home}
+      options={{ headerShown: false }}
+    />
     <Stack.Screen name="Pokemon" component={Pokemon} />
   </Stack.Navigator>
 );
 
-
-
-
 export default function App() {
   return (
-    <NavigationContainer>
-      <QueryClientProvider client={queryClient}>
-        <Tab.Navigator>
-          <Tab.Screen name="Home" component={HomeStack} options={{ headerShown: false }} />
-          <Tab.Screen name="Pokedex" component={Pokedex} />
-          <Tab.Screen name="Random Pokemon" component={Random} />
-        </Tab.Navigator>
-      </QueryClientProvider>
-    </NavigationContainer>
+    <PaperProvider>
+      <NavigationContainer>
+        <QueryClientProvider client={queryClient}>
+          <Tab.Navigator>
+            <Tab.Screen
+              name="HomeStack"
+              component={HomeStack}
+              options={{ headerShown: false }}
+            />
+            <Tab.Screen name="Pokedex" component={Pokedex} />
+            <Tab.Screen name="Random Pokemon" component={Random} />
+          </Tab.Navigator>
+        </QueryClientProvider>
+      </NavigationContainer>
+    </PaperProvider>
   );
 }
+
+// AppRegistry.registerComponent(appName, () => Main);
